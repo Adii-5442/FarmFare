@@ -12,7 +12,7 @@ const Login = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.backgroundImage} source={require('../../components/assets/farmer.png')} />
+      <Image style={styles.backgroundImage} source={require('../../components/assets/local-farmers-market.png')} />
 
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={require('../../components/assets/farmglobe.png')} />
@@ -49,11 +49,11 @@ const Login = (props) => {
             />
 
           </View>
-
           <View style={styles.checkboxContainer}>
             <Text>Keep me logged in</Text>
             <Text style={styles.forgotPassword}>Forgot Password?</Text>
           </View>
+
         </View>
 
         <View style={styles.buttonContainer}>
@@ -62,13 +62,14 @@ const Login = (props) => {
 
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
-        </View>
 
+        </View>
         <View style={styles.signupContainer}>
           <TouchableOpacity onPress={() => { props.navigation.navigate("Register") }} style={styles.signupButton}>
             <Text style={styles.signupText}>Don't have an account? Sign up</Text>
           </TouchableOpacity>
         </View>
+
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -81,12 +82,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backgroundImage: {
-    resizeMode: 'cover',
+    resizeMode: 'contain',
     position: 'absolute',
-    opacity: 0.45,
+    opacity: 1,
+    bottom: 0,
   },
   logoContainer: {
-    marginTop: 20,
+    marginTop: 10,
   },
   logo: {
     width: 250,
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     color: colors.BLACK_1,
   },

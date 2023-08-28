@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, KeyboardAvoidingView, Image, Pressable, TextI
 import React, { useState } from 'react';
 import colors from '../../components/styles/colors';
 import Icon from 'react-native-vector-icons/Entypo';
-const RegisterScreen = () => {
+const RegisterScreen = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,7 +12,7 @@ const RegisterScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.backgroundImage} source={require('../../components/assets/local-farmers-market.png')} />
+      <Image style={styles.backgroundImage} source={require('../../components/assets/farmer.png')} />
 
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={require('../../components/assets/farmglobe.png')} />
@@ -49,7 +49,6 @@ const RegisterScreen = () => {
             />
 
           </View>
-
         </View>
 
         <View style={styles.buttonContainer}>
@@ -59,6 +58,8 @@ const RegisterScreen = () => {
             <Text style={styles.loginButtonText}>Register</Text>
           </TouchableOpacity>
         </View>
+
+
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -71,13 +72,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backgroundImage: {
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     position: 'absolute',
-    opacity: 1,
-    bottom:0,
+    opacity: 0.45,
   },
   logoContainer: {
-    marginTop: 10,
+    marginTop: 20,
   },
   logo: {
     width: 250,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     color: colors.BLACK_1,
   },
