@@ -2,12 +2,12 @@ import { View, Text, SafeAreaView, KeyboardAvoidingView, Image, Pressable, TextI
 import React, { useState } from 'react';
 import colors from '../../components/styles/colors';
 import Icon from 'react-native-vector-icons/Entypo';
-const Login = () => {
+const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    console.log(email, password,"assigned");
+    console.log(email, password, "assigned");
   };
 
   return (
@@ -27,7 +27,7 @@ const Login = () => {
         <View style={styles.inputContainer}>
 
           <View style={styles.inputWrapper}>
-            <Icon style={{marginHorizontal:5}} name='mail-with-circle' size={30} color={colors.BLACK} />
+            <Icon style={{ marginHorizontal: 5 }} name='mail-with-circle' size={30} color={colors.BLACK} />
             <TextInput
               value={email}
               onChangeText={(text) => setEmail(text)}
@@ -38,7 +38,7 @@ const Login = () => {
           </View>
 
           <View style={styles.inputWrapper2}>
-            <Icon style={{ marginHorizontal:5}} name='lock' size={30} color={colors.BLACK} />
+            <Icon style={{ marginHorizontal: 5 }} name='lock' size={30} color={colors.BLACK} />
             <TextInput
               secureTextEntry={true}
               value={password}
@@ -65,7 +65,7 @@ const Login = () => {
         </View>
 
         <View style={styles.signupContainer}>
-          <TouchableOpacity onPress={() => { /* navigation.navigate("Register") */ }} style={styles.signupButton}>
+          <TouchableOpacity onPress={() => { props.navigation.navigate("Register") }} style={styles.signupButton}>
             <Text style={styles.signupText}>Don't have an account? Sign up</Text>
           </TouchableOpacity>
         </View>
@@ -83,14 +83,14 @@ const styles = StyleSheet.create({
   backgroundImage: {
     resizeMode: 'cover',
     position: 'absolute',
-    opacity: 0.6,
+    opacity: 0.45,
   },
   logoContainer: {
-    marginTop: 50,
+    marginTop: 20,
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: 250,
+    height: 250,
     resizeMode: 'contain',
   },
   keyboardContainer: {
@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 25,
     color: colors.BLACK_1,
   },
   inputContainer: {
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingVertical: 2,
     borderRadius: 20,
-    width:'99%'
+    width: '99%'
   },
   inputWrapper2: {
     marginTop: 20,
