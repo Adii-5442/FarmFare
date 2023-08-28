@@ -1,7 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from '../screens/HomeScreen';
-import colors from '../styles/colors';
+import Home from '../../frontend/Home';
+import colors from '../../components/styles/colors';
 import React, {useState, useEffect} from 'react';
 import {
   Text,
@@ -22,9 +22,7 @@ const Tab = createBottomTabNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="AddVehicle" component={AddVehicle} />
-      <Stack.Screen name="RemoveVehicle" component={RemoveVehicle} />
+      <Stack.Screen name="Home" component={Home} />
     </Stack.Navigator>
   );
 };
@@ -42,7 +40,7 @@ const UserStack = () => {
             tabBarIcon: ({focused}) => (
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Image
-                  source={require('../../assets/icons/home.png')}
+                  source={require('../../components/assets/home.png')}
                   resizeMode="contain"
                   style={{
                     tintColor: focused ? colors.BLACK : '#D1CAD8',
@@ -51,67 +49,7 @@ const UserStack = () => {
                   }}
                 />
                 <Image
-                  source={require('../../assets/icons/home.png')}
-                  resizeMode="contain"
-                  style={{
-                    tintColor: focused ? colors.BLACK : colors.WHITE,
-                    height: 5,
-                    width: 5,
-                  }}
-                />
-              </View>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Details"
-          component={HomeScreen}
-          options={{
-            tabBarShowLabel: false,
-            headerShown: false,
-            tabBarIcon: ({focused}) => (
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <Image
-                  source={require('../../assets/icons/to-do-list.png')}
-                  resizeMode="contain"
-                  style={{
-                    tintColor: focused ? colors.BLACK : '#D1CAD8',
-                    height: 35,
-                    width: 35,
-                  }}
-                />
-                <Image
-                  source={require('../../assets/icons/home.png')}
-                  resizeMode="contain"
-                  style={{
-                    tintColor: focused ? colors.BLACK : colors.WHITE,
-                    height: 5,
-                    width: 5,
-                  }}
-                />
-              </View>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={HomeScreen}
-          options={{
-            tabBarShowLabel: false,
-            headerShown: false,
-            tabBarIcon: ({focused}) => (
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <Image
-                  source={require('../../assets/icons/profile-user.png')}
-                  resizeMode="contain"
-                  style={{
-                    tintColor: focused ? colors.BLACK : '#D1CAD8',
-                    height: 35,
-                    width: 35,
-                  }}
-                />
-                <Image
-                  source={require('../../assets/icons/home.png')}
+                  source={require('../../components/assets/home.png')}
                   resizeMode="contain"
                   style={{
                     tintColor: focused ? colors.BLACK : colors.WHITE,
