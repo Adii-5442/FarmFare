@@ -1,13 +1,30 @@
-import { View, Text, SafeAreaView, KeyboardAvoidingView, Image, Pressable, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, KeyboardAvoidingView, Image, Pressable, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
 import colors from '../../components/styles/colors';
 import Icon from 'react-native-vector-icons/Entypo';
-const RegisterScreen = (props) => {
+import axios from 'axios';
+const RegisterScreen = (props:any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('')
-  const handleLogin = () => {
-    console.log(email, password, "assigned");
+  const handleRegister = () => {
+    const user = {
+      name: name,
+      email: email,
+      password: password
+    }
+    axios.post("http://localhost:5500/register", user).then((response) => {
+      console.log(response);
+      Alert.alert("Registration successful", "You have been registered successfully")
+      setName("")
+      setEmail("")
+      setPassword("")
+
+    }).catch((error) => {
+      console.log(error);
+      Alert.alert("Registration failed", "Please try again")
+    })
+
   };
 
   return (
@@ -28,7 +45,7 @@ const RegisterScreen = (props) => {
         <View style={styles.inputContainer}>
 
           <View style={styles.inputWrapper}>
-            <Icon style={{ marginHorizontal: 5 }} name={name ? 'emoji-flirt' : 'emoji-happy'} size={30} color={colors.BLACK} />
+            <Icon style={{ marginHorizontal: 5 }} name={name.length&1 ? 'emoji-flirt' : 'emoji-happy'} size={30} color={colors.BLACK} />
             <TextInput
               value={name}
               onChangeText={(text) => setName(text)}
@@ -65,7 +82,7 @@ const RegisterScreen = (props) => {
 
         <View style={styles.buttonContainer}>
 
-          <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
+          <TouchableOpacity onPress={handleRegister} style={styles.loginButton}>
 
             <Text style={styles.loginButtonText}>Register</Text>
           </TouchableOpacity>

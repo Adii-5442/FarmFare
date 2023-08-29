@@ -1,13 +1,29 @@
-import { View, Text, SafeAreaView, KeyboardAvoidingView, Image, Pressable, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, KeyboardAvoidingView, Image, Pressable, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
 import colors from '../../components/styles/colors';
 import Icon from 'react-native-vector-icons/Entypo';
-const Login = (props) => {
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const Login = (props:any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    console.log(email, password, "assigned");
+    const user = {
+      email: email,
+      password: password
+    }
+
+    axios.post("https://localhost:3000/login", user).then((response) => {
+      console.log(response);
+      const token = response.data.token;
+      AsyncStorage.setItem("authToken", token);
+      console.log("Successfully logged in", token);
+      props.navigation.navigate('Home');
+    }).catch((error) => {
+      Alert.alert("Login Error")
+      console.log(error);
+    })
   };
 
   return (

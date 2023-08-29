@@ -16,12 +16,12 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     profilepicture: { type: String, },
-    joinedDate: { type: Date, default: Date().now() }, \
+    joinedDate: { type: Date, default: Date.now() },
     verified: { type: Boolean, default: false },
     verificationToken: String,
 
 });
 
-const User = mongoose.models('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

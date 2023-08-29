@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer')
 
+const nodemailer = require('nodemailer')
 const app = express();
-const port = 3000;
+const port = 5500;
 const cors = require('cors');
+
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,9 +32,11 @@ const User = require("./models/user");
 const Post = require("./models/post");
 
 //end point to register users
-app.post('/register', (req, res) => {
+
+app.post("/register", async(req, res) => {
     try {
         const { name, email, password } = req.body;
+
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({message:"User already registered"})
@@ -47,7 +51,7 @@ app.post('/register', (req, res) => {
         //send verification email to the user
         sendVerificationEmail(newUser.email, newUser.verificationToken);
 
-        res.status(200).json({message:"Registration successful","please check your email for verification"})
+        res.status(200).json({ message: "Registration successful" });
 
     } catch (err) {
         console.log("error registering the user", err);
@@ -60,18 +64,18 @@ const sendVerificationEmail = async (email, verificationToken) => {
     //create a nodemailer transporter
 
     const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: "adi.sh5442@gmail.com",
-            pass: "<PASSWORD>"
-        }
-    })
+      service: 'gmail',
+      auth: {
+        user: 'adi.sh5442@gmail.com',
+        pass: 'pcxcllqznwpwfvsy',
+      },
+    });
 
     const mailOptions = {
         from: "FarmFare.com",
         to: email,
         subject: "Email Verification",
-        text:`please click on the following link to verify your email http://localhost:3000/verify/${verificationToken}`
+        text:`please click on the following link to verify your email https://localhost:3000/verify/${verificationToken}`
     }
     try {
         await transporter.sendMail(mailOptions)
@@ -99,8 +103,8 @@ app.get("/verify/:token", async (req, res) => {
     }
 });
 const generateSecretKey = () => {
-    const secret = crypto.randomBytes(32).toString("hex");
-    return secretKey;
+  const secret = crypto.randomBytes(32).toString('hex');
+  return secret;
 };
 const secretKey = generateSecretKey();
 
