@@ -50,7 +50,6 @@ const Login = (props) => {
 
           </View>
           <View style={styles.checkboxContainer}>
-            <Text>Keep me logged in</Text>
             <Text style={styles.forgotPassword}>Forgot Password?</Text>
           </View>
 
@@ -65,8 +64,9 @@ const Login = (props) => {
 
         </View>
         <View style={styles.signupContainer}>
+            <Text style={styles.signupText}>Don't have an account?</Text>
           <TouchableOpacity onPress={() => { props.navigation.navigate("Register") }} style={styles.signupButton}>
-            <Text style={styles.signupText}>Don't have an account? Sign up</Text>
+            <Text style={styles.signupText2}>{"\t"}Sign up</Text>
           </TouchableOpacity>
         </View>
 
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     marginTop: 12,
   },
   forgotPassword: {
@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
   },
   signupContainer: {
     marginTop: 10,
+    flexDirection: "row",
   },
   signupButton: {
     justifyContent: 'center',
@@ -176,6 +177,14 @@ const styles = StyleSheet.create({
   signupText: {
     textAlign: 'center',
     fontSize: 16,
+    fontWeight: "500",
+    color: colors.BLACK_1,
+  },
+  signupText2: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.BLUE,
   },
 });
 
