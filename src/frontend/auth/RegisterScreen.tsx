@@ -5,13 +5,14 @@ import Icon from 'react-native-vector-icons/Entypo';
 const RegisterScreen = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [name, setName] = useState('')
   const handleLogin = () => {
     console.log(email, password, "assigned");
   };
 
   return (
     <SafeAreaView style={styles.container}>
+
       <Image style={styles.backgroundImage} source={require('../../components/assets/farmer.png')} />
 
       <View style={styles.logoContainer}>
@@ -27,6 +28,17 @@ const RegisterScreen = (props) => {
         <View style={styles.inputContainer}>
 
           <View style={styles.inputWrapper}>
+            <Icon style={{ marginHorizontal: 5 }} name={name ? 'emoji-flirt' : 'emoji-happy'} size={30} color={colors.BLACK} />
+            <TextInput
+              value={name}
+              onChangeText={(text) => setName(text)}
+              placeholderTextColor={colors.DARK_GREY}
+              style={styles.input}
+              placeholder="Enter your Name"
+            />
+          </View>
+
+          <View style={styles.inputWrapper2}>
             <Icon style={{ marginHorizontal: 5 }} name='mail-with-circle' size={30} color={colors.BLACK} />
             <TextInput
               value={email}
@@ -56,6 +68,12 @@ const RegisterScreen = (props) => {
           <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
 
             <Text style={styles.loginButtonText}>Register</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.signupContainer}>
+          <Text style={styles.signupText}>Already have an account?</Text>
+          <TouchableOpacity onPress={() => { props.navigation.goBack()}} style={styles.signupButton}>
+            <Text style={styles.signupText2}>{"\t"}Sign In</Text>
           </TouchableOpacity>
         </View>
 
@@ -158,6 +176,7 @@ const styles = StyleSheet.create({
   },
   signupContainer: {
     marginTop: 10,
+    flexDirection: "row",
   },
   signupButton: {
     justifyContent: 'center',
@@ -165,6 +184,14 @@ const styles = StyleSheet.create({
   signupText: {
     textAlign: 'center',
     fontSize: 16,
+    fontWeight: "500",
+    color: colors.BLACK_1,
+  },
+  signupText2: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.BLUE,
   },
 });
 
