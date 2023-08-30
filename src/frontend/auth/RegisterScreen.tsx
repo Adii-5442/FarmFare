@@ -12,44 +12,41 @@ const RegisterScreen = (props:any) => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('')
 
-  const handleRegister = async() => {
-    console.clear();
-    console.log(auth)
+  const handleRegister = async () => {
     try {
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(async (signupResponse) => {
-          auth().signOut()
-          signupResponse.user.updateProfile({
-            displayName: name,
-          })
-          signupResponse.user.sendEmailVerification().then(() => {
-            console.log("Verification code has been sent")
-            Alert.alert("Verification Required","Please check your mail and verify your email address")
-          });
+      const signupResponse = await auth()
+        .createUserWithEmailAndPassword(email, password);
 
-          await firestore()
-            .collection('users')
-            .doc(signupResponse.user.uid)
-            .set({
-              name: name,
-              email: email,
-              uid: signupResponse.user.uid,
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-            })
-            .then(() => {
-            console.log("SignedUP successfully")
-          })
+      const user = signupResponse.user;
 
-        })
+      user.updateProfile({
+        displayName: name,
+      });
 
+      await user.sendEmailVerification();
+
+      await firestore()
+        .collection('users')
+        .doc(user.uid)
+        .set({
+          name: name,
+          email: email,
+          uid: user.uid,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        });
+
+      // Manually sign the user out after account creation
+      await auth().signOut();
+      Alert.alert(
+        "Verification Required",
+        "An email verification link has been sent to your email address."
+      );
     } catch (error) {
-
+      console.error("Registration error:", error);
     }
+  };
 
-
-  }
 
 
 
