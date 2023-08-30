@@ -4,26 +4,37 @@ import colors from '../../components/styles/colors';
 import Icon from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const Login = (props:any) => {
+import auth from '@react-native-firebase/auth'
+import { signInWithCredential, signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const navigation =  useNavigation()
   const handleLogin = () => {
-    const user = {
-      email: email,
-      password: password
-    }
+    auth()
+      .fetchSignInMethodsForEmail(email)
+      .then((methods) => {
+        if (methods.includes('password')) {
+          auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(async (userCredential) => {
 
-    axios.post("https://localhost:3000/login", user).then((response) => {
-      console.log(response);
-      const token = response.data.token;
-      AsyncStorage.setItem("authToken", token);
-      console.log("Successfully logged in", token);
-      props.navigation.navigate('Home');
-    }).catch((error) => {
-      Alert.alert("Login Error")
-      console.log(error);
-    })
+              const user = userCredential.user;
+              if (user.emailVerified) {
+                console.log("User Logged In")
+                //await savTostoage
+              } else {
+                Alert.alert("Account not verified", "Please verify your account using the link sent on your registered email")
+
+              }
+
+             })
+      }
+
+       })
+
+
   };
 
   return (

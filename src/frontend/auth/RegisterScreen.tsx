@@ -3,29 +3,73 @@ import React, { useState } from 'react';
 import colors from '../../components/styles/colors';
 import Icon from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
+import { db } from "../../backend/database/firebase"
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth'
+
 const RegisterScreen = (props:any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('')
-  const handleRegister = () => {
-    const user = {
-      name: name,
-      email: email,
-      password: password
+
+  //FOR MONGODB BASED REGISTRATION
+
+  // const handleRegister = () => {
+  //   const user = {
+  //     name: name,
+  //     email: email,
+  //     password: password
+  //   }
+  //   axios.post("http://localhost:5500/register", user).then((response) => {
+  //     console.log(response);
+  //     Alert.alert("Registration successful", "You have been registered successfully")
+  //     setName("")
+  //     setEmail("")
+  //     setPassword("")
+
+  //   }).catch((error) => {
+  //     console.log(error);
+  //     Alert.alert("Registration failed", "Please try again")
+  //   })
+
+  // };
+  const handleRegister = async() => {
+    console.clear();
+    console.log(auth)
+    try {
+      auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(async (signupResponse) => {
+          signupResponse.user.updateProfile({
+            displayName: name,
+          })
+          await signupResponse.user.sendEmailVerification().then(() => {
+            console.log("Verification code has been sent")
+          });
+          await firestore()
+            .collection('users')
+            .doc(signupResponse.user.uid)
+            .set({
+              name: name,
+              email: email,
+              uid: signupResponse.user.uid,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            })
+            .then(() => {
+            console.log("SignedUP successfully")
+          })
+
+        })
+
+    } catch (error) {
+
     }
-    axios.post("http://localhost:5500/register", user).then((response) => {
-      console.log(response);
-      Alert.alert("Registration successful", "You have been registered successfully")
-      setName("")
-      setEmail("")
-      setPassword("")
 
-    }).catch((error) => {
-      console.log(error);
-      Alert.alert("Registration failed", "Please try again")
-    })
 
-  };
+  }
+
+
 
   return (
     <SafeAreaView style={styles.container}>
