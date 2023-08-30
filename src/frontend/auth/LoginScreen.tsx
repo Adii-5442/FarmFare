@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth'
 import { signInWithCredential, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-const Login = () => {
+const Login = (props:any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation =  useNavigation()
@@ -19,23 +19,35 @@ const Login = () => {
           auth()
             .signInWithEmailAndPassword(email, password)
             .then(async (userCredential) => {
-
               const user = userCredential.user;
               if (user.emailVerified) {
-                console.log("User Logged In")
-                //await savTostoage
+                console.log("User Logged In");
+                // Proceed with further actions for a verified user
               } else {
-                Alert.alert("Account not verified", "Please verify your account using the link sent on your registered email")
-
+                // User's email is not verified, prevent login
+                Alert.alert(
+                  "Account not verified",
+                  "Please verify your account using the link sent to your registered email"
+                );
+                // You might also want to sign the user out at this point
+                auth().signOut();
               }
-
-             })
-      }
-
-       })
-
-
+            })
+            .catch((error) => {
+              // Handle login error
+              console.error("Login error:", error);
+            });
+        } else {
+          // No password-based sign-in method available for the email
+          Alert.alert("No account found", "Please sign up first");
+        }
+      })
+      .catch((error) => {
+        // Handle fetchSignInMethodsForEmail error
+        console.error("Fetch methods error:", error);
+      });
   };
+
 
   return (
     <SafeAreaView style={styles.container}>

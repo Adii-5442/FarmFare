@@ -12,27 +12,6 @@ const RegisterScreen = (props:any) => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('')
 
-  //FOR MONGODB BASED REGISTRATION
-
-  // const handleRegister = () => {
-  //   const user = {
-  //     name: name,
-  //     email: email,
-  //     password: password
-  //   }
-  //   axios.post("http://localhost:5500/register", user).then((response) => {
-  //     console.log(response);
-  //     Alert.alert("Registration successful", "You have been registered successfully")
-  //     setName("")
-  //     setEmail("")
-  //     setPassword("")
-
-  //   }).catch((error) => {
-  //     console.log(error);
-  //     Alert.alert("Registration failed", "Please try again")
-  //   })
-
-  // };
   const handleRegister = async() => {
     console.clear();
     console.log(auth)
@@ -40,12 +19,15 @@ const RegisterScreen = (props:any) => {
       auth()
         .createUserWithEmailAndPassword(email, password)
         .then(async (signupResponse) => {
+          auth().signOut()
           signupResponse.user.updateProfile({
             displayName: name,
           })
-          await signupResponse.user.sendEmailVerification().then(() => {
+          signupResponse.user.sendEmailVerification().then(() => {
             console.log("Verification code has been sent")
+            Alert.alert("Verification Required","Please check your mail and verify your email address")
           });
+
           await firestore()
             .collection('users')
             .doc(signupResponse.user.uid)
