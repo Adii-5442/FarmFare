@@ -2,7 +2,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../../frontend/Home';
 import colors from '../../components/styles/colors';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import ConsumerType from '../../frontend/Preferences/ConsumerType';
 import {
   Text,
   View,
@@ -21,7 +22,8 @@ const Tab = createBottomTabNavigator();
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ConsumerType" component={ConsumerType} />
       <Stack.Screen name="Home" component={Home} />
     </Stack.Navigator>
   );
