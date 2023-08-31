@@ -1,19 +1,27 @@
-import React, { useState,useRef} from 'react';
-import { View, Text, TouchableOpacity,Animated, StyleSheet ,ImageBackground , Image} from 'react-native';
+import React, {useState, useRef} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  StyleSheet,
+  ImageBackground,
+  Image,
+} from 'react-native';
 import colors from '../../components/styles/colors';
 
-const ConsumerType = () => {
-  const [userType, setUserType] = useState(null);
-  const slideAnimation = useRef(new Animated.Value(0)).current;
+const ConsumerType = (props: any) => {
+  const [userType, setUserType] = useState('Both');
+  const slideAnimation = useRef(new Animated.Value(1)).current;
 
-  const handleSelection = (selectedType) => {
+  const handleSelection = (selectedType: string) => {
     setUserType(selectedType);
     slideAnimation.setValue(0);
 
     Animated.timing(slideAnimation, {
       toValue: 1,
       duration: 1000, // You can adjust the animation duration
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
   let selectedImage = null;
@@ -36,15 +44,29 @@ const ConsumerType = () => {
     ],
   };
   return (
-    <ImageBackground source={require('../../components/assets/loginBack.jpg')} style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Animated.View style={[styles.userImageContainer, animatedStyle]}>
-          {selectedImage && (
-            <Image source={selectedImage} style={styles.userImage} resizeMode="contain" />
-          )}
-        </Animated.View>
-      </View>
-      <View style={{marginVertical:20}}>
+    <ImageBackground
+      source={require('../../components/assets/loginBack.jpg')}
+      style={styles.container}>
+      <TouchableOpacity onPress={() => props.navigation.goBack()}>
+        <Image
+          source={require('../../components/assets/backIcon.png')}
+          style={styles.backIcon}
+        />
+      </TouchableOpacity>
+      {userType ? (
+        <View style={styles.imageContainer}>
+          <Animated.View style={[styles.userImageContainer, animatedStyle]}>
+            {selectedImage && (
+              <Image
+                source={selectedImage}
+                style={styles.userImage}
+                resizeMode="contain"
+              />
+            )}
+          </Animated.View>
+        </View>
+      ) : null}
+      <View style={{marginVertical: 20}}>
         <Text style={styles.subtitle}>How will you use the app?</Text>
       </View>
 
@@ -53,8 +75,7 @@ const ConsumerType = () => {
           styles.userTypeOption,
           userType === 'Producer' && styles.selectedOption,
         ]}
-        onPress={() => handleSelection('Producer')}
-      >
+        onPress={() => handleSelection('Producer')}>
         <Text style={styles.optionText}>I'm a Producer</Text>
       </TouchableOpacity>
 
@@ -63,8 +84,7 @@ const ConsumerType = () => {
           styles.userTypeOption,
           userType === 'Consumer' && styles.selectedOption,
         ]}
-        onPress={() => handleSelection('Consumer')}
-      >
+        onPress={() => handleSelection('Consumer')}>
         <Text style={styles.optionText}>I'm a Consumer</Text>
       </TouchableOpacity>
 
@@ -73,20 +93,21 @@ const ConsumerType = () => {
           styles.userTypeOption,
           userType === 'Both' && styles.selectedOption,
         ]}
-        onPress={() => handleSelection('Both')}
-      >
+        onPress={() => handleSelection('Both')}>
         <Text style={styles.optionText}>I'm Both</Text>
       </TouchableOpacity>
 
-      <View style={{alignItems:'center',justifyContent:'center',marginVertical:20}}>
+      <View style={styles.nextButtonView}>
         <TouchableOpacity
           style={styles.nextButton}
           disabled={!userType}
           onPress={() => {
             // Navigate to the appropriate screen based on userType
-          }}
-        >
-          <Text style={styles.nextButtonText}>Next</Text>
+          }}>
+          <Image
+            source={require('../../components/assets/next.png')}
+            style={styles.nextIcon}
+          />
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -102,27 +123,55 @@ const styles = StyleSheet.create({
     fontSize: 29,
     fontWeight: 'bold',
     marginBottom: 10,
-    color:colors.BLACK
+    color: colors.BLACK,
   },
   subtitle: {
     fontSize: 25,
     marginBottom: 20,
     color: colors.BLACK,
     fontWeight: 'bold',
+    marginLeft: 15,
   },
   userImageContainer: {
     width: 200,
     height: 200,
     alignItems: 'center',
   },
+  backgroundImage: {
+    resizeMode: 'cover',
+    position: 'absolute',
+    bottom: 0,
+  },
+  backIcon: {
+    height: 30,
+    width: 30,
+    marginLeft: 15,
+    paddingBottom: 15,
+    marginTop: 15,
+  },
+  nextButtonView: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    marginVertical: 20,
+    marginRight: 20,
+  },
+  nextIcon: {
+    height: 65,
+    width: 65,
+    marginLeft: 15,
+    paddingBottom: 15,
+    marginTop: 15,
+  },
   userTypeOption: {
     backgroundColor: '#f0f0f0',
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     borderRadius: 20,
     marginBottom: 20,
+    marginRight: 20,
     alignContent: 'center',
-    justifyContent: "center",
+    justifyContent: 'center',
+    marginLeft: 15,
   },
   selectedOption: {
     backgroundColor: '#61d64f',
@@ -130,13 +179,9 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 20,
     color: colors.BLACK,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   nextButton: {
-    backgroundColor: '#23472f',
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    borderRadius: 20,
     marginTop: 20,
   },
   nextButtonText: {
@@ -146,7 +191,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     alignItems: 'center',
-    marginVertical:20,
+    marginVertical: 20,
   },
   userImage: {
     width: 250,
