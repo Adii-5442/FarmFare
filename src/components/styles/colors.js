@@ -5,6 +5,7 @@ const colors = {
     BROWNISH_GREY: '#6e6e6e',
     TRANSPARENT: 'transparent',
     BLUE: '#124cc7',
+    CYAN:'#42e3f5',
     PINKISH_GREY: '#bcbcbc',
     WHITE_TWO: '#f2f2f2',
     WHITE_GREY: '#f5f5f5',

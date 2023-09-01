@@ -9,10 +9,29 @@ import {
   Image,
 } from 'react-native';
 import colors from '../../components/styles/colors';
+import firestore from '@react-native-firebase/firestore'
+import { useAuth } from '../../backend/hooks/useAuth';
+import { ToastAndroid } from 'react-native';
 
 const ConsumerType = (props: any) => {
+  const {user} = useAuth()
   const [userType, setUserType] = useState('Both');
   const slideAnimation = useRef(new Animated.Value(1)).current;
+
+  const handleNext = async () => {
+    console.log('Pushing user Type to firebase');
+
+
+
+    await firestore()
+      .collection('users')
+      .doc(user?.uid)
+      .set({userType:userType}, {merge: true})
+      .then(() => {
+        ToastAndroid.show('Wohoo!!', ToastAndroid.SHORT);
+        props.navigation.navigate('Location');
+      });
+  };
 
   const handleSelection = (selectedType: string) => {
     setUserType(selectedType);
@@ -101,9 +120,7 @@ const ConsumerType = (props: any) => {
         <TouchableOpacity
           style={styles.nextButton}
           disabled={!userType}
-          onPress={() => {
-            // Navigate to the appropriate screen based on userType
-          }}>
+          onPress={handleNext}>
           <Image
             source={require('../../components/assets/next.png')}
             style={styles.nextIcon}
