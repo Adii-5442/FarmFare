@@ -22,6 +22,7 @@ const Login = (props:any) => {
               const user = userCredential.user;
               if (user.emailVerified) {
                 console.log("User Logged In");
+                AsyncStorage.setItem("userLoginStatus", 'true')
                 // Proceed with further actions for a verified user
               } else {
                 // User's email is not verified, prevent login

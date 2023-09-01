@@ -6,6 +6,7 @@ import axios from 'axios';
 import { db } from "../../backend/database/firebase"
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterScreen = (props:any) => {
   const [email, setEmail] = useState('');
@@ -38,10 +39,12 @@ const RegisterScreen = (props:any) => {
 
       // Manually sign the user out after account creation
       await auth().signOut();
+      AsyncStorage.setItem('registrationStatus', 'registered');
       Alert.alert(
         "Verification Required",
         "An email verification link has been sent to your email address."
       );
+
     } catch (error) {
       console.error("Registration error:", error);
     }

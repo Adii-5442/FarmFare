@@ -18,9 +18,13 @@ import colors from '../../components/styles/colors';
 import Geolocation from 'react-native-geolocation-service';
 import { useAuth } from '../../backend/hooks/useAuth';
 import firestore from '@react-native-firebase/firestore'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserStack from '../../backend/navigation/userStack';
+import { useNavigation } from '@react-navigation/native';
 
 const Location = (props: any) => {
-  const {user} = useAuth();
+  const { user } = useAuth();
+  const navigation = useNavigation();
   const [locationPermission, setlocationPermission] = useState(false);
   const [coordinates, setCoordinates] = useState();
   const [address, setAddress] = useState<string>('');
@@ -42,9 +46,10 @@ const Location = (props: any) => {
       .collection('users')
       .doc(user?.uid)
       .set(updatedData, { merge: true })
-      .then(() => {
+      .then(async() => {
         ToastAndroid.show("Here we go!", ToastAndroid.SHORT)
-        props.navigation.navigate('Home');
+        navigation.navigate('TabStack');
+
       })
     }
 
