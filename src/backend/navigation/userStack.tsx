@@ -16,13 +16,15 @@ import {
 } from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Location from '../../frontend/Preferences/Location';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Location" component={Location} />
       <Stack.Screen name="ConsumerType" component={ConsumerType} />
       <Stack.Screen name="Home" component={Home} />
     </Stack.Navigator>
