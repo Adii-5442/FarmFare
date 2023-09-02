@@ -4,7 +4,7 @@ import AuthStack from './authStack';
 import { useAuth } from '../hooks/useAuth';
 
 export default function RootNavigation() {
-  const { user } = useAuth();
+  const { user , CurrentData } = useAuth();
   console.log("Auth status :",user?.displayName)
-  return user ? <UserStack /> : <AuthStack  />;
+  return user ? <UserStack user={user} CurrentData={CurrentData} /> : <AuthStack  />;
 }

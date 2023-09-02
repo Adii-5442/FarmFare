@@ -48,6 +48,7 @@ const Location = (props: any) => {
       .set(updatedData, { merge: true })
       .then(async() => {
         ToastAndroid.show("Here we go!", ToastAndroid.SHORT)
+        AsyncStorage.setItem("journey", "completed");
         navigation.navigate('TabStack');
 
       })

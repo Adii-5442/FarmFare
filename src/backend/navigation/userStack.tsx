@@ -1,4 +1,4 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../../frontend/Home';
 import colors from '../../components/styles/colors';
@@ -18,6 +18,7 @@ import {
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Location from '../../frontend/Preferences/Location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FastImage from 'react-native-fast-image';
 
 
 const Stack = createNativeStackNavigator();
@@ -197,15 +198,46 @@ const TabStack = () => {
 }
 
 
-const UserStack = () => {
+const UserStack = (user: any) => {
+  const [showGIF, setshowGIF] = useState(true)
+
+   useEffect(() => {
+     // Use setTimeout to hide the GIF after 2 seconds (2000 milliseconds)
+     const timeout = setTimeout(() => {
+       setshowGIF(false);
+     }, 2000);
+     return () => {
+       clearTimeout(timeout);
+     };
+   }, []);
+  if (showGIF) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <FastImage
+          source={require('../../components/assets/loader.gif')}
+          style={{width: 200, height: 200}} // Adjust the width and height as needed
+          resizeMode={FastImage.resizeMode.contain}
+        />
+      </View>
+    );
+  }
+
+
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        headerShown: false,
-      }}>
-        <Stack.Screen name="LoginJourney" component={LoginJourneyStack} />
-        <Stack.Screen name="TabStack" component={TabStack} />
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        {user.CurrentData.get('address') ? (
+          <Stack.Screen name="TabStack" component={TabStack}   />
+        ) : (
+          <Stack.Group>
+            <Stack.Screen name="LoginJourney" component={LoginJourneyStack} />
+            <Stack.Screen name="TabStack" component={TabStack} />
+          </Stack.Group>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

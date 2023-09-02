@@ -1,17 +1,13 @@
-import { View, Text } from 'react-native'
-import React, { useEffect } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import React from 'react';
+import {View, Text} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
-const Home = () => {
-  useEffect(() => {
-    AsyncStorage.getItem('registrationStatus').then((status) => { console.log("hey:",status)})
-  }, [])
-
+const Home = (props) => {
   return (
-    <View>
-      <Text>Home</Text>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+     <Text>Home</Text>
     </View>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
