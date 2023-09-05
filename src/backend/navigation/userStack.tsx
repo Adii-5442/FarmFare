@@ -1,25 +1,14 @@
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../../frontend/Home';
 import colors from '../../components/styles/colors';
 import React, {useState, useEffect} from 'react';
 import ConsumerType from '../../frontend/Preferences/ConsumerType';
-import {
-  Text,
-  View,
-  Image,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  ToastAndroid,
-  Alert,
-} from 'react-native';
+import {View, Image} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Location from '../../frontend/Preferences/Location';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
-
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,26 +23,19 @@ const LoginJourneyStack = () => {
       <Stack.Screen name="Location" component={Location} />
     </Stack.Navigator>
   );
-}
+};
 
-const ChatStack = () => {
+const ChatStack = () => {};
 
-}
+const OrderStack = () => {};
 
-const OrderStack = () => {
-
-}
-
-const ProfileStack = () => {
-
-}
-
+const ProfileStack = () => {};
 
 const HomeStack = () => {
   return (
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Home" component={Home} />
+    </Stack.Navigator>
   );
 };
 
@@ -195,20 +177,19 @@ const TabStack = () => {
       />
     </Tab.Navigator>
   );
-}
-
+};
 
 const UserStack = (user: any) => {
-  const [showGIF, setshowGIF] = useState(true)
+  const [showGIF, setshowGIF] = useState(true);
 
-   useEffect(() => {
-     const timeout = setTimeout(() => {
-       setshowGIF(false);
-     }, 2000);
-     return () => {
-       clearTimeout(timeout);
-     };
-   }, []);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setshowGIF(false);
+    }, 2000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
   if (showGIF) {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -221,8 +202,6 @@ const UserStack = (user: any) => {
     );
   }
 
-
-
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -230,7 +209,7 @@ const UserStack = (user: any) => {
           headerShown: false,
         }}>
         {user.CurrentData.get('address') ? (
-          <Stack.Screen name="TabStack" component={TabStack}   />
+          <Stack.Screen name="TabStack" component={TabStack} />
         ) : (
           <Stack.Group>
             <Stack.Screen name="LoginJourney" component={LoginJourneyStack} />
