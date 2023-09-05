@@ -1,4 +1,5 @@
-import React, {useState, useRef, useEffect} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,19 +12,17 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import colors from '../../components/styles/colors';
 import Geolocation from 'react-native-geolocation-service';
-import { useAuth } from '../../backend/hooks/useAuth';
-import firestore from '@react-native-firebase/firestore'
+import {useAuth} from '../../backend/hooks/useAuth';
+import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import UserStack from '../../backend/navigation/userStack';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const Location = (props: any) => {
-  const { user } = useAuth();
+  const {user} = useAuth();
   const navigation = useNavigation();
   const [locationPermission, setlocationPermission] = useState(false);
   const [coordinates, setCoordinates] = useState();
@@ -31,9 +30,8 @@ const Location = (props: any) => {
   const [newAddress, setnewAddress] = useState<string>('');
   const mapAnimation = new Animated.Value(0);
 
-
   const handleNext = async () => {
-    console.log('Pushing location to firebase')
+    console.log('Pushing location to firebase');
     const updatedData = {
       address: address,
       coordinates: coordinates,
@@ -45,18 +43,15 @@ const Location = (props: any) => {
     await firestore()
       .collection('users')
       .doc(user?.uid)
-      .set(updatedData, { merge: true })
-      .then(async() => {
-        ToastAndroid.show("Here we go!", ToastAndroid.SHORT)
-        AsyncStorage.setItem("journey", "completed");
+      .set(updatedData, {merge: true})
+      .then(async () => {
+        ToastAndroid.show('Here we go!', ToastAndroid.SHORT);
+        AsyncStorage.setItem('journey', 'completed');
         navigation.navigate('TabStack');
-
-      })
-    }
-
+      });
+  };
 
   useEffect(() => {
-
     requestLocationPermission();
     Animated.loop(
       Animated.sequence([
@@ -98,7 +93,6 @@ const Location = (props: any) => {
             console.error('Error fetching address:', error);
             setAddress('Error fetching address');
           }
-
         },
         error => {
           console.log(error.code, error.message);
@@ -138,7 +132,7 @@ const Location = (props: any) => {
     <ImageBackground
       source={require('../../components/assets/loginBack.jpg')}
       style={styles.container}>
-      <ScrollView style={{flex:1}}>
+      <ScrollView style={{flex: 1}}>
         <TouchableOpacity onPress={() => props.navigation.goBack()}>
           <Image
             source={require('../../components/assets/backIcon.png')}
@@ -182,7 +176,8 @@ const Location = (props: any) => {
         </View>
         <View style={{marginTop: 1}}>
           <Text style={{fontSize: 17, marginLeft: 15, color: colors.RED}}>
-           If you're not at your actual location, please mention your address along with area Pin Code.(else leave it blank)
+            If you're not at your actual location, please mention your address
+            along with area Pin Code.(else leave it blank)
           </Text>
         </View>
         <KeyboardAvoidingView>
@@ -194,7 +189,7 @@ const Location = (props: any) => {
                 marginVertical: 3,
                 width: '80%',
                 fontSize: 16,
-                padding:10,
+                padding: 10,
               }}
               onChangeText={txt => setnewAddress(txt)}
               value={newAddress}
@@ -259,7 +254,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   inputWrapper2: {
-    backgroundColor:colors.WHITE,
+    backgroundColor: colors.WHITE,
     marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',

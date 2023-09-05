@@ -202,7 +202,6 @@ const UserStack = (user: any) => {
   const [showGIF, setshowGIF] = useState(true)
 
    useEffect(() => {
-     // Use setTimeout to hide the GIF after 2 seconds (2000 milliseconds)
      const timeout = setTimeout(() => {
        setshowGIF(false);
      }, 2000);

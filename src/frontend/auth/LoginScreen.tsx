@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth'
+import Icons
 import { signInWithCredential, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 const Login = (props:any) => {
