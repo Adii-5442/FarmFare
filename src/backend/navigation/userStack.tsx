@@ -9,6 +9,7 @@ import {View, Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Location from '../../frontend/Preferences/Location';
 import FastImage from 'react-native-fast-image';
+import greenLoader from '../../components/greenLoader';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -45,7 +46,8 @@ const TabStack = () => {
       screenOptions={{
         tabBarStyle: {
           backgroundColor: colors.BLACK,
-          //borderRadius: 20,
+          borderRadius: 20,
+          marginBottom:8
         },
       }}>
       <Tab.Screen
@@ -54,7 +56,6 @@ const TabStack = () => {
         options={{
           tabBarShowLabel: false,
           headerShown: false,
-
           tabBarIcon: ({focused}) => (
             <View
               style={{
@@ -212,7 +213,13 @@ const UserStack = (user: any) => {
   }, []);
   if (showGIF) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: colors.WHITE,
+        }}>
         <FastImage
           source={require('../../components/assets/loader.gif')}
           style={{width: 200, height: 200}} // Adjust the width and height as needed
@@ -221,12 +228,12 @@ const UserStack = (user: any) => {
       </View>
     );
   }
-
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
+
         }}>
         {user.CurrentData.get('address') ? (
           <Stack.Screen name="TabStack" component={TabStack} />

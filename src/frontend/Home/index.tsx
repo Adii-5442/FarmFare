@@ -177,7 +177,7 @@ const Home = (props: any) => {
         <View style={{flex: 0.3,marginHorizontal:5}}>
           <Text style={{fontSize: 17, color: colors.BLACK}}>{item.price}</Text>
           <View>
-            <Text style={{fontSize: 15, fontWeight: '400'}}>{item.title}</Text>
+            <Text style={{fontSize: 15, fontWeight: '400',color:colors.GREY_1}}>{item.title}</Text>
             <View style={{flexDirection: 'row'}}>
               <Icon
                 style={{marginBottom: 5}}
@@ -185,7 +185,7 @@ const Home = (props: any) => {
                 size={25}
                 color={colors.BLACK}
               />
-              <Text>{ item.location}</Text>
+              <Text style={{color:colors.GREY_1}}>{ item.location}</Text>
             </View>
           </View>
         </View>
