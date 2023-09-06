@@ -1,4 +1,5 @@
-import React, {useState, useRef} from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,13 +13,114 @@ import colors from '../../components/styles/colors';
 import firestore from '@react-native-firebase/firestore';
 import {useAuth} from '../../backend/hooks/useAuth';
 import {ToastAndroid} from 'react-native';
+import {ScrollView} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+const featuredListings = [
+  {
+    id: 1,
+    title: 'Product 1',
+    price: '$100',
+    location: 'New York',
+    image: require('../../components/assets/loginBack.jpg'),
+  },
+  {
+    id: 2,
+    title: 'Product 2',
+    price: '$150',
+    location: 'Los Angeles',
+    image: require('../../components/assets/loginBack.jpg'),
+  },
+  // Add more listings here
+];
 
 const Home = (props: any) => {
-  const {user} = useAuth();
-  return (
-    <View
-      style={styles.container}>
+  const {user, CurrentData} = useAuth();
+  const [address, setaddress] = useState('');
 
+  useEffect(() => {
+    if (CurrentData.has('address')) {
+      let k = CurrentData.get('address');
+      if (k.length > 12) {
+        k = k.substring(0, 12) + '...';
+      }
+      setaddress(k);
+    }
+  }, [CurrentData]);
+  return (
+    <View style={{flex: 1}}>
+      {/* Header */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingVertical: 10,
+          paddingHorizontal: 10,
+          backgroundColor: '#b1b5b2',
+        }}>
+        {/* OLX logo */}
+        <Text style={styles.title}>FarmFare</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Icon
+            style={{marginHorizontal: 5}}
+            name="location"
+            size={30}
+            color={colors.BLACK}
+          />
+          <Text style={{}}>{address}</Text>
+        </View>
+      </View>
+
+      {/* Category Selector */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <TouchableOpacity>{/* Category 1 */}</TouchableOpacity>
+        <TouchableOpacity>{/* Category 2 */}</TouchableOpacity>
+        {/* Add more category buttons */}
+      </ScrollView>
+
+      {/* Featured Listings */}
+      <ScrollView>
+        {featuredListings.map(listing => (
+          <TouchableOpacity key={listing.id}>
+            <View>
+              <Image source={listing.image} style={{width: 200, height: 150}} />
+              <Text>{listing.title}</Text>
+              <Text>{listing.price}</Text>
+              <Text>{listing.location}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* Popular Cities */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <TouchableOpacity>{/* City 1 */}</TouchableOpacity>
+        <TouchableOpacity>{/* City 2 */}</TouchableOpacity>
+        {/* Add more city buttons */}
+      </ScrollView>
+
+      {/* Trending Searches */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <TouchableOpacity>{/* Trending Search 1 */}</TouchableOpacity>
+        <TouchableOpacity>{/* Trending Search 2 */}</TouchableOpacity>
+        {/* Add more trending search buttons */}
+      </ScrollView>
+
+      {/* Recently Viewed */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <TouchableOpacity>{/* Recently Viewed Item 1 */}</TouchableOpacity>
+        <TouchableOpacity>{/* Recently Viewed Item 2 */}</TouchableOpacity>
+        {/* Add more recently viewed items */}
+      </ScrollView>
+
+      {/* Footer */}
+      <View>{/* Footer links */}</View>
     </View>
   );
 };
@@ -31,8 +133,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 29,
     fontWeight: 'bold',
-    marginBottom: 10,
     color: colors.BLACK,
+    alignSelf: 'center',
   },
   subtitle: {
     fontSize: 25,

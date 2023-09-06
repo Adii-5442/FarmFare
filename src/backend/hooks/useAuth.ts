@@ -17,7 +17,6 @@ export function useAuth() {
       .doc(user.uid)
       .get()
       .then(res => {
-        console.log(res.data());
         if (res) {
           for (let key in res.data()) {
             updateMap(key, res.data()[key]);

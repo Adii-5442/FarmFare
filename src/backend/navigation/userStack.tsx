@@ -115,6 +115,26 @@ const TabStack = () => {
         }}
       />
       <Tab.Screen
+        name="Add"
+        component={OrderStack}
+        options={{
+          tabBarShowLabel: false,
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center', justifyContent: 'center',marginBottom:40}}>
+              <Image
+                source={require('../../components/assets/add.png')}
+                resizeMode="contain"
+                style={{
+                  height: 60,
+                  width: 65,
+                }}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
         name="ChatStack"
         component={ChatStack}
         options={{
