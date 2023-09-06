@@ -195,7 +195,7 @@ const Home = (props: any) => {
 
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1,backgroundColor:colors.WHITE}}>
       {/* Header */}
       <View>
         <View
@@ -336,8 +336,8 @@ const styles = StyleSheet.create({
     margin: 4,
     backgroundColor: colors.WHITE,
     height: 250,
-    borderWidth: 1,
-    borderColor: colors.GREY_1,
+    borderWidth: 2,
+    borderColor: '#d4d2d2',
     borderRadius: 10,
   },
   backgroundImage: {
