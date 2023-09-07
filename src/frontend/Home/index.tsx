@@ -126,23 +126,6 @@ const categories = [
     title: 'Plants and Flowers',
   },
 ]
-// (listing) => {
-//           console.log(listing)
-//           return (
-//             <TouchableOpacity style={{borderWidth:1,borderRadius:10,borderColor:colors.GREY_1,marginHorizontal:10,padding:10}}>
-//               <View>
-//                 <Image
-//                   source={listing.item.image}
-//                   style={{width: 200, height: 150}}
-//                 />
-//                 <Text>{listing.item.title}</Text>
-//                 <Text>{listing.item.price}</Text>
-//                 <Text>{listing.item.location}</Text>
-//               </View>
-//             </TouchableOpacity>
-//           )
-//         }
-
 
 const Home = (props: any) => {
   const {user, CurrentData} = useAuth();
@@ -163,7 +146,6 @@ const Home = (props: any) => {
 
   }
   const renderList = ({ item }) => {
-    console.log("Hye",item.image , item)
     return (
       <TouchableOpacity style={styles.itemContainer}>
         <View style={{flex: 0.7}}>

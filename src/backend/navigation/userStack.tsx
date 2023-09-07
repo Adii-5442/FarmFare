@@ -4,12 +4,15 @@ import Home from '../../frontend/Home';
 import colors from '../../components/styles/colors';
 import React, {useState, useEffect} from 'react';
 import ConsumerType from '../../frontend/Preferences/ConsumerType';
-import {View, Image} from 'react-native';
+import {View, Image, Text, TouchableOpacity} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Location from '../../frontend/Preferences/Location';
 import FastImage from 'react-native-fast-image';
 import greenLoader from '../../components/greenLoader';
+import Modal from 'react-native-modal';
+import RequestType from '../../frontend/AddStack/RequestType';
+import RequestPage from '../../frontend/AddStack/RequestPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,6 +43,17 @@ const HomeStack = () => {
   );
 };
 
+const AddStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="RequestType" component={RequestType} />
+      <Stack.Screen name="RequestPage" component={RequestPage} />
+    </Stack.Navigator>
+  );
+
+};
+
+
 const TabStack = () => {
   return (
     <Tab.Navigator
@@ -47,7 +61,7 @@ const TabStack = () => {
         tabBarStyle: {
           backgroundColor: colors.BLACK,
           borderRadius: 20,
-          marginBottom:8
+          marginBottom: 8,
         },
       }}>
       <Tab.Screen
@@ -117,12 +131,17 @@ const TabStack = () => {
       />
       <Tab.Screen
         name="Add"
-        component={OrderStack}
+        component={AddStack}
         options={{
           tabBarShowLabel: false,
           headerShown: false,
           tabBarIcon: ({focused}) => (
-            <View style={{alignItems: 'center', justifyContent: 'center',marginBottom:40}}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 40,
+              }}>
               <Image
                 source={require('../../components/assets/add.png')}
                 resizeMode="contain"
@@ -202,6 +221,7 @@ const TabStack = () => {
 
 const UserStack = (user: any) => {
   const [showGIF, setshowGIF] = useState(true);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -228,12 +248,13 @@ const UserStack = (user: any) => {
       </View>
     );
   }
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-
         }}>
         {user.CurrentData.get('address') ? (
           <Stack.Screen name="TabStack" component={TabStack} />
