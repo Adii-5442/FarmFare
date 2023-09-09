@@ -1,4 +1,4 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, getFocusedRouteNameFromRoute, useNavigation, useRoute} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../../frontend/Home';
 import colors from '../../components/styles/colors';
@@ -13,6 +13,8 @@ import greenLoader from '../../components/greenLoader';
 import Modal from 'react-native-modal';
 import RequestType from '../../frontend/AddStack/RequestType';
 import RequestPage from '../../frontend/AddStack/RequestPage';
+import Profile from '../../frontend/ProfileStack/Profile';
+import { useAuth } from '../hooks/useAuth';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -33,7 +35,13 @@ const ChatStack = () => {};
 
 const OrderStack = () => {};
 
-const ProfileStack = () => {};
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Profile" component={Profile} />
+    </Stack.Navigator>
+  );
+};
 
 const HomeStack = () => {
   return (
@@ -55,167 +63,184 @@ const AddStack = () => {
 
 
 const TabStack = () => {
+  const { user, CurrentData } = useAuth();
+  const navigation = useNavigation();
+  const [TabStackColor, setTabStackColor] = useState<string>(colors.WHITE)
+  const route = useRoute()
+  const activeTab = getFocusedRouteNameFromRoute(route)
+
+  useEffect(() => {
+    if (activeTab == 'ProfileStack') {
+      setTabStackColor('rgba(36,19,50,1)');
+    } else {
+      setTabStackColor(colors.WHITE);
+    }
+  }, [activeTab])
+
+
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          backgroundColor: colors.BLACK,
-          borderRadius: 20,
-          marginBottom: 8,
-        },
-      }}>
-      <Tab.Screen
-        name="HomeStack"
-        component={HomeStack}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 50,
-              }}>
-              <Image
-                source={require('../../components/assets/home2.png')}
-                resizeMode="contain"
+    <View style={{flex:1,backgroundColor:TabStackColor}}>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            backgroundColor: colors.BLACK, //change this color to purple on clikcing the profile stack
+            borderRadius: 20,
+            marginBottom: 8,
+          },
+        }}>
+        <Tab.Screen
+          name="HomeStack"
+          component={HomeStack}
+          options={{
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarIcon: ({focused}) => (
+              <View
                 style={{
-                  tintColor: focused ? colors.CYAN : colors.OFF_GREY,
-                  height: 35,
-                  width: 35,
-                }}
-              />
-              <Image
-                source={require('../../components/assets/home.png')}
-                resizeMode="contain"
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 50,
+                }}>
+                <Image
+                  source={require('../../components/assets/home2.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: focused ? colors.CYAN : colors.OFF_GREY,
+                    height: 35,
+                    width: 35,
+                  }}
+                />
+                <Image
+                  source={require('../../components/assets/home.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: focused ? colors.CYAN : colors.BLACK,
+                    height: 5,
+                    width: 5,
+                  }}
+                />
+              </View>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="OrderStack"
+          component={OrderStack}
+          options={{
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarIcon: ({focused}) => (
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <Image
+                  source={require('../../components/assets/money_ledger.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: focused ? colors.CYAN : colors.OFF_GREY,
+                    height: 35,
+                    width: 35,
+                  }}
+                />
+                <Image
+                  source={require('../../components/assets/home.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: focused ? colors.CYAN : colors.BLACK,
+                    height: 5,
+                    width: 5,
+                  }}
+                />
+              </View>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Add"
+          component={AddStack}
+          options={{
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarIcon: ({focused}) => (
+              <View
                 style={{
-                  tintColor: focused ? colors.CYAN : colors.BLACK,
-                  height: 5,
-                  width: 5,
-                }}
-              />
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="OrderStack"
-        component={OrderStack}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <Image
-                source={require('../../components/assets/money_ledger.png')}
-                resizeMode="contain"
-                style={{
-                  tintColor: focused ? colors.CYAN : colors.OFF_GREY,
-                  height: 35,
-                  width: 35,
-                }}
-              />
-              <Image
-                source={require('../../components/assets/home.png')}
-                resizeMode="contain"
-                style={{
-                  tintColor: focused ? colors.CYAN : colors.BLACK,
-                  height: 5,
-                  width: 5,
-                }}
-              />
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Add"
-        component={AddStack}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: 40,
-              }}>
-              <Image
-                source={require('../../components/assets/add.png')}
-                resizeMode="contain"
-                style={{
-                  height: 60,
-                  width: 65,
-                }}
-              />
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="ChatStack"
-        component={ChatStack}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <Image
-                source={require('../../components/assets/chat.png')}
-                resizeMode="contain"
-                style={{
-                  tintColor: focused ? colors.CYAN : colors.OFF_GREY,
-                  height: 35,
-                  width: 35,
-                }}
-              />
-              <Image
-                source={require('../../components/assets/home.png')}
-                resizeMode="contain"
-                style={{
-                  tintColor: focused ? colors.CYAN : colors.BLACK,
-                  height: 5,
-                  width: 5,
-                }}
-              />
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="ProfileStack"
-        component={ProfileStack}
-        options={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({focused}) => (
-            <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <Image
-                source={require('../../components/assets/person-profile.png')}
-                resizeMode="contain"
-                style={{
-                  tintColor: focused ? colors.CYAN : colors.OFF_GREY,
-                  height: 35,
-                  width: 35,
-                }}
-              />
-              <Image
-                source={require('../../components/assets/home.png')}
-                resizeMode="contain"
-                style={{
-                  tintColor: focused ? colors.CYAN : colors.BLACK,
-                  height: 5,
-                  marginTop: 2,
-                  width: 5,
-                }}
-              />
-            </View>
-          ),
-        }}
-      />
-    </Tab.Navigator>
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 40,
+                }}>
+                <Image
+                  source={require('../../components/assets/add.png')}
+                  resizeMode="contain"
+                  style={{
+                    height: 60,
+                    width: 65,
+                  }}
+                />
+              </View>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="ChatStack"
+          component={ChatStack}
+          options={{
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarIcon: ({focused}) => (
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <Image
+                  source={require('../../components/assets/chat.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: focused ? colors.CYAN : colors.OFF_GREY,
+                    height: 35,
+                    width: 35,
+                  }}
+                />
+                <Image
+                  source={require('../../components/assets/home.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: focused ? colors.CYAN : colors.BLACK,
+                    height: 5,
+                    width: 5,
+                  }}
+                />
+              </View>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="ProfileStack"
+          component={ProfileStack}
+          options={{
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarIcon: ({focused}) => (
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <Image
+                  source={require('../../components/assets/person-profile.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: focused ? colors.CYAN : colors.OFF_GREY,
+                    height: 35,
+                    width: 35,
+                  }}
+                />
+                <Image
+                  source={require('../../components/assets/home.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: focused ? colors.CYAN : colors.BLACK,
+                    height: 5,
+                    marginTop: 2,
+                    width: 5,
+                  }}
+                />
+              </View>
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </View>
   );
 };
 
