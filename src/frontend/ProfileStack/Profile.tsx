@@ -135,7 +135,7 @@ const Profile = (props: any) => {
                   fontFamily: 'Montserrat_700Bold',
                   color: '#FFF',
                 }}>
-                {user?.displayName}
+                Abhinav Sharma
               </Text>
             </TouchableOpacity>
             <Text
@@ -266,7 +266,8 @@ const styles = StyleSheet.create({
   gradientText: {
     transform: [{rotate: '-180deg'}],
     color: '#FFF',
-    fontSize: 35,
+    fontSize: 36,
+    fontWeight:'700',
     marginVertical: 30,
     alignSelf: 'center',
     fontFamily: 'Montserrat_700Bold',
