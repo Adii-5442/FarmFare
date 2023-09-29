@@ -15,12 +15,14 @@ import {ToastAndroid} from 'react-native';
 
 const RequestType = (props: any) => {
   const {user} = useAuth();
-  const [userType, setUserType] = useState('');
+  const [requestType, setRequestType] = useState('');
   const slideAnimation = useRef(new Animated.Value(1)).current;
 
   const handleNext = async () => {
       console.log('Pushing user Type to firebase');
-      props.navigation.navigate('RequestPage');
+    props.navigation.navigate('RequestPage', {
+        requestType:requestType,
+      });
 
     // await firestore()
     //   .collection('users')
@@ -33,7 +35,7 @@ const RequestType = (props: any) => {
   };
 
   const handleSelection = (selectedType: string) => {
-    setUserType(selectedType);
+    setRequestType(selectedType);
     slideAnimation.setValue(0);
 
     Animated.timing(slideAnimation, {
@@ -44,9 +46,9 @@ const RequestType = (props: any) => {
   };
   let selectedImage = null;
 
-  if (userType === 'Sell') {
+  if (requestType === 'Sell') {
     selectedImage = require('../../components/assets/seller.png');
-  } else if (userType === 'Request') {
+  } else if (requestType === 'Request') {
     selectedImage = require('../../components/assets/request.png');
   }
   const animatedStyle = {
@@ -69,7 +71,7 @@ const RequestType = (props: any) => {
           style={styles.backIcon}
         />
       </TouchableOpacity>
-      {userType ? (
+      {requestType ? (
         <View style={styles.imageContainer}>
           <Animated.View style={[styles.userImageContainer, animatedStyle]}>
             {selectedImage && (
@@ -89,7 +91,7 @@ const RequestType = (props: any) => {
       <TouchableOpacity
         style={[
           styles.userTypeOption,
-          userType === 'Sell' && styles.selectedOption,
+          requestType === 'Sell' && styles.selectedOption,
         ]}
         onPress={() => handleSelection('Sell')}>
         <Text style={styles.optionText}>Sell an Item</Text>
@@ -98,7 +100,7 @@ const RequestType = (props: any) => {
       <TouchableOpacity
         style={[
           styles.userTypeOption,
-          userType === 'Request' && styles.selectedOption,
+          requestType === 'Request' && styles.selectedOption,
         ]}
         onPress={() => handleSelection('Request')}>
         <Text style={styles.optionText}>Request for an Item</Text>
@@ -106,7 +108,7 @@ const RequestType = (props: any) => {
       <View style={styles.nextButtonView}>
         <TouchableOpacity
           style={styles.nextButton}
-          disabled={!userType}
+          disabled={!requestType}
           onPress={handleNext}>
           <Image
             source={require('../../components/assets/next.png')}
